@@ -2,5 +2,7 @@
     "name": "nrf-devcontainer",
     "image": "ghcr.io/tigitlabs/nrf-devcontainer:latest",
     "initializeCommand": ".devcontainer/initializeCommand.sh",
+    "postCreateCommand": ".devcontainer/postCreateCommand.sh",
+    "postStartCommand": ".devcontainer/postStartCommand.sh",
     "remoteUser": "vscode"
 }
