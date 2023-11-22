@@ -1,0 +1,7 @@
+{
+"workbench.colorCustomizations": {
+  "[Default Dark Modern]": {},
+  "titleBar.activeBackground": "#00A9CD", // replace color1 with your desired color
+    "titleBar.activeForeground": "#FFFFFF"  // replace color2 with your desired color
+  }
+}
