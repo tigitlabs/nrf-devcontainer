@@ -1,0 +1,5 @@
+{
+    "name": "nrf-devcontainer",
+    "image": "ghcr.io/tigitlabs/nrf-devcontainer:latest",
+    "remoteUser": "vscode"
+}
