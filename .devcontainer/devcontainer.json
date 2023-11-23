@@ -1,6 +1,6 @@
 {
     "name": "nrf-devcontainer",
-    "image": "ghcr.io/tigitlabs/nrf-devcontainer:latest",
+    "image": "ghcr.io/tigitlabs/nrf-devcontainer:main",
     "initializeCommand": ".devcontainer/initializeCommand.sh",
     "postCreateCommand": ".devcontainer/postCreateCommand.sh",
     "postStartCommand": ".devcontainer/postStartCommand.sh",
