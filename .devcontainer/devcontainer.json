@@ -4,5 +4,6 @@
     "initializeCommand": ".devcontainer/initializeCommand.sh",
     "postCreateCommand": ".devcontainer/postCreateCommand.sh",
     "postStartCommand": ".devcontainer/postStartCommand.sh",
+    "postAttachCommand": ".devcontainer/postAttachCommand.sh",
     "remoteUser": "vscode"
 }
