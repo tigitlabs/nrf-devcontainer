@@ -3,5 +3,7 @@
   "[Default Dark Modern]": {},
   "titleBar.activeBackground": "#00A9CD", // replace color1 with your desired color
     "titleBar.activeForeground": "#FFFFFF"  // replace color2 with your desired color
-  }
+  },
+  "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.5.0}",
+  "nrf-connect.topdir": "/home/vscode/ncs/v2.5.0/"
 }
