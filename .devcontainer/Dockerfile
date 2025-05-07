@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
-ARG NRF_TOOLCHAIN_VERSION="v3.0.0":${NRF_TOOLCHAIN_VERSION}
+ARG NRF_TOOLCHAIN_VERSION="v3.0.0"
 
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
