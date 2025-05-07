@@ -17,11 +17,15 @@ To run arbitary commands run:
 
 For convenience the `west` alias is added.
 
-You can run the `./build_test.sh` script to test the enviornment is working correctly
-After you run the script the blinky project will be copied into `/workspaces/nrf-devcontainer`
-To test that the `alias` working run: `west build blinky --board nrf52840dk/nrf52840 --build-dir blinky/build --pristine`
----
+### How to use the template
 
+After cloning the repo open the folder in the devconctainer. The build might take some time.
+Then run this commands for a quick test:
+
+- Run: `./build_test.sh`
+- Run: `west build blinky --board nrf52840dk/nrf52840 --build-dir blinky/build --pristine`
+
+---
 
 ## Topics to understand before getting started
 
