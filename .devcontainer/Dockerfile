@@ -31,16 +31,15 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 USER vscode
 WORKDIR /workspaces
-RUN pipx ensurepath
 RUN pipx install west
+# Add pipx to PATH
 ENV PATH="${PATH}:/home/vscode/.local/bin/"
-USER vscode
 
 # Install nrfutil and toolchain
 RUN curl https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/executables/x86_64-unknown-linux-gnu/nrfutil -o nrfutil && \
     sudo chmod +x nrfutil && \
     sudo mv nrfutil /usr/local/bin && \
-    nrfutil install device && \
-    nrfutil install sdk-manager && \
-    nrfutil sdk-manager install ${NRF_TOOLCHAIN_VERSION}
-
+    nrfutil install completion device sdk-manager
+RUN nrfutil sdk-manager install ${NRF_TOOLCHAIN_VERSION}
+ENV ZEPHYR_BASE="/home/vscode/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/"
+RUN west update && west packages pip --install
