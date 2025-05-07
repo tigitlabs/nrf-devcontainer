@@ -8,3 +8,4 @@ if [[ -n "${CODESPACES}" || -n "${GITHUB_CODESPACE_TOKEN}" ]]; then
 else
     echo "Running on local host"
 fi
+nrfutil install completion

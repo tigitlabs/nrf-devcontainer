@@ -1,9 +1,22 @@
 {
     "name": "nrf-devcontainer",
-    "image": "ghcr.io/tigitlabs/nrf-devcontainer:main",
+    "build": {
+        "dockerfile": "./Dockerfile",
+        "context": ".",
+        "args": {
+            "NRF_TOOLCHAIN_VERSION": "v3.0.0"
+        }
+    },
     "initializeCommand": ".devcontainer/initializeCommand.sh",
     "postCreateCommand": ".devcontainer/postCreateCommand.sh",
     "postStartCommand": ".devcontainer/postStartCommand.sh",
     "postAttachCommand": ".devcontainer/postAttachCommand.sh",
-    "remoteUser": "vscode"
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "nordic-semiconductor.nrf-connect-extension-pack"
+            ]
+        }
+    }
 }
