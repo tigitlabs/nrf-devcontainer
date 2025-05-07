@@ -15,5 +15,5 @@ else
     echo "🧪 Check github access via SSH"
     # Add github.com to known_hosts
     ssh-keyscan github.com >> ~/.ssh/known_hosts
-    ssh -T git@github.com
+    # ssh -T git@github.com
 fi

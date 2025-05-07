@@ -1,1 +1,4 @@
+# Created during local devcontainer build
 .devcontainer/.env
+# Build directory
+**/build/
