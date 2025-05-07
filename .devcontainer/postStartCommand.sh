@@ -17,4 +17,3 @@ else
     ssh-keyscan github.com >> ~/.ssh/known_hosts
     # ssh -T git@github.com
 fi
-nrfutil completion install bash >> /home/vscode/.bashrc

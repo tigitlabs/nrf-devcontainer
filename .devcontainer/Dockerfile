@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
 ARG NRF_TOOLCHAIN_VERSION="v3.0.0"
-
+ENV NRF_TOOLCHAIN_VERSION=${NRF_TOOLCHAIN_VERSION}
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
@@ -31,9 +31,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 USER vscode
 WORKDIR /workspaces
-RUN pipx install west
+# pipx install west
 # Add pipx to PATH
-ENV PATH="${PATH}:/home/vscode/.local/bin/"
+# ENV PATH="${PATH}:/home/vscode/.local/bin/"
 
 # Install nrfutil and toolchain
 RUN curl https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/executables/x86_64-unknown-linux-gnu/nrfutil -o nrfutil && \
@@ -42,4 +42,6 @@ RUN curl https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/execu
     nrfutil install completion device sdk-manager
 RUN nrfutil sdk-manager install ${NRF_TOOLCHAIN_VERSION}
 ENV ZEPHYR_BASE="/home/vscode/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/"
-RUN west update && west packages pip --install
+
+RUN echo '[[ -r "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash" ]] && . "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash"' >> ~/.bashrc
+RUN echo 'alias west="nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} -- west"' >> ~/.bashrc
