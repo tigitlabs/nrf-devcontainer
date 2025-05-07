@@ -22,6 +22,6 @@ else
         echo "### Load env variables" >> ~/.bashrc
     else
         echo "$ENV_FILE does not exist."
-        exit 1
+        # exit 1
     fi
 fi

@@ -5,13 +5,18 @@ echo "🏗️ Initialize command"
 if [[ -n "${CODESPACES}" || -n "${GITHUB_CODESPACE_TOKEN}" ]]; then
     printf "Running in GitHub Codespaces.\nNo need to export any keys."
     exit 0
+# Check if the script is running on GitHub Actions
+elif [[ "${GITHUB_ACTIONS}" == "true" ]]; then
+    echo "Running in GitHub Actions."
+    echo "No need to export any keys."
+    exit 0
 else
     echo "Running on local host"
     echo "Check if gh is installed"
     if ! command -v gh &> /dev/null
     then
         echo "gh could not be found"
-        exit 1
+        # exit 1
     else
         echo "gh is installed"
         gh --version
@@ -21,7 +26,7 @@ else
     if ! gh auth status | grep -q "Logged in to github.com"
     then
         echo "gh is not logged in"
-        exit 1
+        # exit 1
     else
         echo "gh is logged in"
         gh auth status

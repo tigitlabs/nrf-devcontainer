@@ -1,5 +1,4 @@
 #!/bin/bash
-# build_test.sh
 
 if [ -z "$ZEPHYR_BASE" ]; then
   echo "⚠️ ZEPHYR_BASE is not set"
@@ -7,12 +6,14 @@ if [ -z "$ZEPHYR_BASE" ]; then
   exit 1
 fi
 
-cp -r ~/ncs/v2.5.0/zephyr/samples/hello_world/ .
-west build hello_world --board nrf52840dk_nrf52840 --build-dir hello_world/build --pristine
+rm -rf blinky
+cp -r ~/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/samples/basic/blinky .
+
+nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} -- west build blinky --board nrf52840dk/nrf52840 --build-dir blinky/build --pristine
 
 echo "🧪 Check if the build is successful"
 # Check if the hex file exists
-if [ -f "hello_world/build/zephyr/zephyr.hex" ]; then
+if [ -f "blinky/build/merged.hex" ]; then
   echo "✅ Hex file exists"
 else
   echo "❌ Hex file does not exist"
