@@ -18,5 +18,6 @@
                 "nordic-semiconductor.nrf-connect-extension-pack"
             ]
         }
-    }
+    },
+    "updateRemoteUserUID": true
 }
