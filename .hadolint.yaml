@@ -1,0 +1,3 @@
+failure-threshold: warning               # name of threshold level (error | warning | info | style | ignore | none)
+ignored:
+  - DL3008
