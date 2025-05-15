@@ -40,18 +40,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libxkbcommon-x11-0 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /tmp
-COPY ${JLINK_PACKAGE_FILE} /tmp/${JLINK_PACKAGE_FILE}
-
-RUN if [ "$INSTALL_JLINK" = "true" ]; then \
-        echo "Installing J-Link..."; \
-        dpkg --unpack /tmp/${JLINK_PACKAGE_FILE} && \
-        rm -f /var/lib/dpkg/info/jlink.postinst && \
-        dpkg --configure jlink; \
-    else \
-        echo "Skipping J-Link install, dummy package used."; \
-    fi
-
 # pipx install west
 # Add pipx to PATH
 # ENV PATH="${PATH}:/home/vscode/.local/bin/"
@@ -70,3 +58,19 @@ ENV ZEPHYR_BASE="/home/vscode/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/"
 
 RUN echo '[[ -r "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash" ]] && . "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash"' >> ~/.bashrc && \
     echo 'alias west="nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} -- west"' >> ~/.bashrc
+
+USER root
+WORKDIR /tmp
+COPY ${JLINK_PACKAGE_FILE} /tmp/${JLINK_PACKAGE_FILE}
+
+RUN if [ "$INSTALL_JLINK" = "true" ]; then \
+        echo "Installing J-Link..."; \
+        dpkg --unpack /tmp/${JLINK_PACKAGE_FILE} && \
+        rm -f /var/lib/dpkg/info/jlink.postinst && \
+        dpkg --configure jlink; \
+    else \
+        echo "Skipping J-Link install, dummy package used."; \
+    fi
+
+USER vscode
+WORKDIR /workspaces
