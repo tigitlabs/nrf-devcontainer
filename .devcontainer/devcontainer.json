@@ -4,9 +4,15 @@
         "dockerfile": "./Dockerfile",
         "context": ".",
         "args": {
-            "NRF_TOOLCHAIN_VERSION": "v3.0.0"
+            "NRF_TOOLCHAIN_VERSION": "v3.0.1"
         }
     },
+    "runArgs": [
+        "--privileged"
+    ],
+    "mounts": [
+        "type=bind,source=/dev/bus/usb,target=/dev/bus/usb"
+    ],
     "initializeCommand": ".devcontainer/initializeCommand.sh",
     "postCreateCommand": ".devcontainer/postCreateCommand.sh",
     "postStartCommand": ".devcontainer/postStartCommand.sh",
@@ -19,5 +25,8 @@
             ]
         }
     },
-    "updateRemoteUserUID": true
+    "updateRemoteUserUID": true,
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    }
 }

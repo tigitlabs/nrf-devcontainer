@@ -2,3 +2,5 @@
 .devcontainer/.env
 # Build directory
 **/build/
+# Test application
+blinky/
