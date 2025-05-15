@@ -33,29 +33,31 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libxcb-keysyms1 \
     libxcb-image0 \
     libxkbcommon-x11-0 \
-    && apt-get autoremove -y && apt-get clean -y
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
 COPY JLink_Linux_V832_x86_64.deb /tmp/JLink_Linux_V832_x86_64.deb
-RUN dpkg --unpack JLink_Linux_V832_x86_64.deb
-RUN rm -f /var/lib/dpkg/info/jlink.postinst
-RUN dpkg --configure jlink
+RUN dpkg --unpack JLink_Linux_V832_x86_64.deb && \
+    rm -f /var/lib/dpkg/info/jlink.postinst && \
+    dpkg --configure jlink
 
-USER vscode
-WORKDIR /workspaces
 # pipx install west
 # Add pipx to PATH
-ENV PATH="${PATH}:/home/vscode/.local/bin/"
+# ENV PATH="${PATH}:/home/vscode/.local/bin/"
 
-# Install nrfutil and toolchain
+WORKDIR /workspaces
+RUN chown -R vscode:vscode /workspaces
 RUN curl https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/executables/x86_64-unknown-linux-gnu/nrfutil -o nrfutil && \
-    sudo chmod +x nrfutil && \
-    sudo mv nrfutil /usr/local/bin && \
-    nrfutil install completion device sdk-manager
+    chmod +x nrfutil && \
+    mv nrfutil /usr/local/bin
+
+USER vscode
+RUN nrfutil install completion device sdk-manager
 RUN nrfutil sdk-manager install ${NRF_TOOLCHAIN_VERSION}
+
 ENV ZEPHYR_BASE="/home/vscode/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/"
 
-RUN echo '[[ -r "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash" ]] && . "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash"' >> ~/.bashrc
-RUN echo 'alias west="nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} -- west"' >> ~/.bashrc
+RUN echo '[[ -r "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash" ]] && . "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash"' >> ~/.bashrc && \
+    echo 'alias west="nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} -- west"' >> ~/.bashrc
 
 WORKDIR /workspaces/nrf-devcontainer
