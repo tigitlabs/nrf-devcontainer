@@ -1,11 +1,11 @@
-name: On Pull Request to dev
-
+name: Test devcontainer
+# Disabled trigger for now as the standard runner is running out of space.
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - dev
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
+  #   branches:
+  #     - dev
 
 jobs:
   build_and_test_the_devcontainer:
@@ -15,4 +15,4 @@ jobs:
       - name: Pre-build image and run make ci-build in dev container
         uses: devcontainers/ci@v0.3
         with:
-          runCmd: ./build_test.sh
+          runCmd: .devcontainer/ci.sh
