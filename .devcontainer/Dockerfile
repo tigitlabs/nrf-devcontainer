@@ -1,6 +1,11 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
 ARG NRF_TOOLCHAIN_VERSION="v3.0.1"
+ARG INSTALL_JLINK="false"
+ARG JLINK_VERSION="V832"
+
+ENV INSTALL_JLINK=${INSTALL_JLINK}
+ENV JLINK_PACKAGE_FILE="JLink_Linux_${JLINK_VERSION}_x86_64.deb"
 ENV NRF_TOOLCHAIN_VERSION=${NRF_TOOLCHAIN_VERSION}
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -35,12 +40,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libxkbcommon-x11-0 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /tmp
-COPY JLink_Linux_V832_x86_64.deb /tmp/JLink_Linux_V832_x86_64.deb
-RUN dpkg --unpack JLink_Linux_V832_x86_64.deb && \
-    rm -f /var/lib/dpkg/info/jlink.postinst && \
-    dpkg --configure jlink
-
 # pipx install west
 # Add pipx to PATH
 # ENV PATH="${PATH}:/home/vscode/.local/bin/"
@@ -60,4 +59,18 @@ ENV ZEPHYR_BASE="/home/vscode/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/"
 RUN echo '[[ -r "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash" ]] && . "${HOME}/.nrfutil/share/nrfutil-completion/scripts/bash/setup.bash"' >> ~/.bashrc && \
     echo 'alias west="nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} -- west"' >> ~/.bashrc
 
-WORKDIR /workspaces/nrf-devcontainer
+USER root
+WORKDIR /tmp
+COPY ${JLINK_PACKAGE_FILE} /tmp/${JLINK_PACKAGE_FILE}
+
+RUN if [ "$INSTALL_JLINK" = "true" ]; then \
+        echo "Installing J-Link..."; \
+        dpkg --unpack /tmp/${JLINK_PACKAGE_FILE} && \
+        rm -f /var/lib/dpkg/info/jlink.postinst && \
+        dpkg --configure jlink; \
+    else \
+        echo "Skipping J-Link install, dummy package used."; \
+    fi
+
+USER vscode
+WORKDIR /workspaces

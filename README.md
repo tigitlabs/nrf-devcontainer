@@ -10,8 +10,14 @@ The image is around 14GB
 ## Installed toolchain
 
 - `nrfutil`
+  - Version can be set in the `devcontainer.json`
+    `"NRF_TOOLCHAIN_VERSION": "v3.0.1"`
 - `west` as an alias using the version provided by the `nrf toolchain`
 - `JLink`
+  - if `"INSTALL_JLINK": "true"` is set the `"JLINK_PACKAGE_FILE": "JLink_Linux_V832_x86_64.deb"`
+file has to be
+available during build time in the `.decontainer` directory. If it is set to `false`
+there will be dummy file created with the `initializeCommand`.
 
 ### Commands
 
