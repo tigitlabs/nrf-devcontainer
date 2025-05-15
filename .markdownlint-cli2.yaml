@@ -6,6 +6,8 @@ config:
   no-multiple-blanks: false
   MD013:  # Line length
     line_length: 100
+  MD033:  # inline html
+   allowed_elements: ["br"]
 
 # Fix any fixable errors
 fix: true

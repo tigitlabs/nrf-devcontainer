@@ -40,10 +40,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libxkbcommon-x11-0 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# pipx install west
-# Add pipx to PATH
-# ENV PATH="${PATH}:/home/vscode/.local/bin/"
-
 WORKDIR /workspaces
 RUN chown -R vscode:vscode /workspaces
 RUN curl https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/executables/x86_64-unknown-linux-gnu/nrfutil -o nrfutil && \
@@ -51,8 +47,12 @@ RUN curl https://files.nordicsemi.com/artifactory/swtools/external/nrfutil/execu
     mv nrfutil /usr/local/bin
 
 USER vscode
-RUN nrfutil install completion device sdk-manager
-RUN nrfutil sdk-manager install ${NRF_TOOLCHAIN_VERSION}
+RUN pipx install pre-commit==4.2.0
+# Add pipx to PATH
+ENV PATH="${PATH}:/home/vscode/.local/bin/"
+
+RUN nrfutil install completion device sdk-manager && \
+    nrfutil sdk-manager install ${NRF_TOOLCHAIN_VERSION}
 
 ENV ZEPHYR_BASE="/home/vscode/ncs/${NRF_TOOLCHAIN_VERSION}/zephyr/"
 

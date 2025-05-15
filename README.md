@@ -3,7 +3,8 @@
 Template repository to get started with nRF and Zephyr applications using a `devcontainer`.
 Flashing and debugging is supported via USB passthrough.
 
-The image is around 14GB
+The image is around 14GB.<br>
+⚠️ `Codespaces` are not working currently, only local `devcontainers`
 
 ---
 
