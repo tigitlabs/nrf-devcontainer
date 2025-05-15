@@ -21,7 +21,8 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "nordic-semiconductor.nrf-connect-extension-pack"
+                "nordic-semiconductor.nrf-connect-extension-pack",
+                "DavidAnson.vscode-markdownlint"
             ]
         }
     },
