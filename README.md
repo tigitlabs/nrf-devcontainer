@@ -3,6 +3,7 @@
 Template repository to get started with nRF and Zephyr applications.
 
 ---
+
 ## nRF toolchain
 
 Nordic provides it's own toolchain manager `nrfutil` it is available in the image.
@@ -10,6 +11,7 @@ Nordic provides it's own toolchain manager `nrfutil` it is available in the imag
 ### Commands
 
 To launch a shell run:
+
 - `nrfutil sdk-manager toolchain launch --ncs-version ${NRF_TOOLCHAIN_VERSION} --shell`
 
 To run arbitary commands run:
@@ -25,7 +27,25 @@ Then run this commands for a quick test:
 - Run: `./build_test.sh`
 - Run: `west build blinky --board nrf52840dk/nrf52840 --build-dir blinky/build --pristine`
 
+
+sudo docker run -t -i --privileged -v /dev/bus/usb/:/dev/bus/usb $DOCKERIMAGE_CI bash"
 ---
+
+## Local devlopment
+
+`curl -d "accept_license_agreement=accepted&submit=Download+software" -X POST -O "https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb"`
+
+https://forums.docker.com/t/jlink-segger-inside-ubuntu-container-on-windows-host/122083
+Potential workaround:
+https://forum.segger.com/index.php/Thread/8953-SOLVED-J-Link-Linux-installer-fails-for-Docker-containers-Error-Failed-to-update/
+
+---
+
+## Refernces
+
+- [Installing the nRF Connect SDK without nrfutil](https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/installation/install_ncs.html)
+- [Using J-Link from docker container](https://kb.segger.com/J-Link_Docker_Container)
+- [Memfault Github Actions article](https://interrupt.memfault.com/blog/ncs-github-actions)
 
 ## Topics to understand before getting started
 
@@ -98,6 +118,36 @@ An application stored within the `workspace` but outside the `zephyr` directory.
 - **freestanding**  
 An application outside of the `workspace`.
 [Nordic tutorial](https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/app_dev/create_application.html#creating_application_for_use_with_command_line)
+
+### Toolchain
+
+#### Architecture
+
+```mermaid
+flowchart TD
+     application["Nordic Application"]
+     libraries["Protocols
+     Libraries"]
+     middleware["Middleware"]
+     zephyr["Zephyr"]
+     wirelesstack["Wireless Stack"]
+     boardconfig["Board Config"]
+     application --> libraries
+     libraries --> middleware
+     middleware --> zephyr
+     middleware --> wirelesstack
+     zephyr --> boardconfig
+     wirelesstack --> boardconfig
+
+```
+
+```mermaid
+flowchart LR
+    Kconfig --> CMake
+    Device_Tree --> CMake
+    CMake --> Ninja
+    Ninja --> gcc
+```
 
 ### [West](https://docs.zephyrproject.org/latest/develop/west/index.html)
 

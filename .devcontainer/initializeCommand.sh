@@ -1,5 +1,33 @@
 #!/bin/bash
 # .devcontainer/initializeCommand.sh
+
+function github_cli_check() {
+
+    if ! command -v gh &> /dev/null
+    then
+        echo "⚠️ github-cli could not be found"
+        return 1
+    else
+        echo "✅ github-cli is installed"
+        gh --version
+    fi
+
+    echo "Check if gh is logged in"
+    if ! gh auth status | grep -q "Logged in to github.com"
+    then
+        echo "⚠️ github-cli is not logged in"
+        return 1
+    else
+        echo "✅ github-cli is logged in"
+        gh auth status
+    fi
+
+    echo "Write environment variables to .devcontainer/.env file"
+    echo "GITHUB_TOKEN=$(gh config get oauth_token --host github.com)" > .devcontainer/.env
+    echo "GITHUB_USER=$(gh api user | jq -r '.login')" >> .devcontainer/.env
+
+}
+
 echo "🏗️ Initialize command"
 # Check if the script is running on GitHub Codespaces
 if [[ -n "${CODESPACES}" || -n "${GITHUB_CODESPACE_TOKEN}" ]]; then
@@ -12,29 +40,7 @@ elif [[ "${GITHUB_ACTIONS}" == "true" ]]; then
     exit 0
 else
     echo "Running on local host"
-    echo "Check if gh is installed"
-    if ! command -v gh &> /dev/null
-    then
-        echo "gh could not be found"
-        # exit 1
-    else
-        echo "gh is installed"
-        gh --version
-    fi
-
-    echo "Check if gh is logged in"
-    if ! gh auth status | grep -q "Logged in to github.com"
-    then
-        echo "gh is not logged in"
-        # exit 1
-    else
-        echo "gh is logged in"
-        gh auth status
-    fi
-
-    echo "Write environment variables to .devcontainer/.env file"
-    echo "GITHUB_TOKEN=$(gh config get oauth_token --host github.com)" > .devcontainer/.env
-    echo "GITHUB_USER=$(gh api user | jq -r '.login')" >> .devcontainer/.env
+    github_cli_check
 
     if [ -z "$SSH_AUTH_SOCK" ]; then
         echo "SSH_AUTH_SOCK is not set"
