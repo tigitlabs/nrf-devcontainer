@@ -47,7 +47,6 @@ RUN west sdk install
 
 ENV ZEPHYR_BASE="/workspaces/ncs/${NRF_TOOLCHAIN_VERSION}"/zephyr
 ENV PATH="/home/vscode/.local/share/pipx/venvs/west/bin/:$PATH"
-WORKDIR /workspaces/nrf-devcontainer
 
 USER root
 WORKDIR /tmp
@@ -66,4 +65,4 @@ RUN rm -f /var/lib/dpkg/info/jlink.postinst
 RUN dpkg --configure jlink
 
 USER vscode
-WORKDIR /workspaces/nrf-devcontainer
+WORKDIR /workspaces
