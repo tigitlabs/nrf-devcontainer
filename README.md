@@ -4,7 +4,7 @@ Template repository to get started with nRF and Zephyr applications using a `dev
 Flashing and debugging is supported via USB passthrough.
 
 The image is around 14GB.<br>
-⚠️ `Codespaces` are not working currently, only local `devcontainers`
+⚠️ You need a machine with more than 32GB to use`Codespaces`.
 
 ---
 
@@ -18,7 +18,7 @@ The image is around 14GB.<br>
   - if `"INSTALL_JLINK": "true"` is set the `"JLINK_PACKAGE_FILE": "JLink_Linux_V832_x86_64.deb"`
 file has to be
 available during build time in the `.decontainer` directory. If it is set to `false`
-there will be dummy file created with the `initializeCommand`.
+there will be dummy file created with the `initializeCommand`. Default is set to `false`.
 
 ### Commands
 

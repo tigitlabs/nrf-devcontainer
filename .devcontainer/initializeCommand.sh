@@ -53,6 +53,7 @@ fi
 if [ "$INSTALL_JLINK" == "true" ] && [ ! -f ".devcontainer/$JLINK_PACKAGE_FILE" ]; then
     # If install is true and the file does not exist exit
     echo "🛑 The Segger driver file does not exist: .devcontainer/$JLINK_PACKAGE_FILE"
+    exit 1
 elif [ "$INSTALL_JLINK" == "false" ] && [ ! -f ".devcontainer/$JLINK_PACKAGE_FILE" ]; then
     # If install is false and file does not exist create a dummy one so `COPY` does not fail
     echo "Creating a dummy file"
@@ -68,11 +69,13 @@ echo "🏗️ Initialize command"
 # Check if the script is running on GitHub Codespaces
 if [[ -n "${CODESPACES}" || -n "${GITHUB_CODESPACE_TOKEN}" ]]; then
     printf "Running in GitHub Codespaces.\nNo need to export any keys."
+    segger_check
     exit 0
 # Check if the script is running on GitHub Actions
 elif [[ "${GITHUB_ACTIONS}" == "true" ]]; then
     echo "Running in GitHub Actions."
     echo "No need to export any keys."
+    segger_check
     exit 0
 else
     echo "Running on local host"
