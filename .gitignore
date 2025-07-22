@@ -4,4 +4,4 @@
 **/build/
 # Test application
 blinky/
-JLink_Linux_V832_x86_64.deb
+JLink_Linux_*_x86_64.deb

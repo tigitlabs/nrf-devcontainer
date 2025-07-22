@@ -38,6 +38,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libxcb-keysyms1 \
     libxcb-image0 \
     libxkbcommon-x11-0 \
+    gnupg2 \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspaces
